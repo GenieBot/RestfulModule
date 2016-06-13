@@ -4,6 +4,7 @@ import io.sponges.bot.api.entities.Client;
 import io.sponges.bot.api.entities.Network;
 import io.sponges.bot.api.entities.manager.ClientManager;
 import io.sponges.bot.api.entities.manager.NetworkManager;
+import io.sponges.bot.api.entities.manager.UserManager;
 import io.sponges.bot.api.event.events.channelmsg.ChannelMessageReceiveEvent;
 import io.sponges.bot.api.module.Module;
 import io.sponges.bot.modules.restmodule.Message;
@@ -46,11 +47,12 @@ public class ListNetworksMessage extends Message {
             user = args[1];
         }
         for (Network network : networks) {
+            UserManager userManager = network.getUserManager();
             if (checkForUser) {
-                if (!network.getUsers().containsKey(user)) {
+                if (!userManager.isUser(user)) {
                     continue;
                 }
-                if (!network.getUser(user).hasPermission(RestModule.DASHBOARD_MANAGE_PERMISSION)) {
+                if (!userManager.getUser(user).hasPermission(RestModule.DASHBOARD_MANAGE_PERMISSION)) {
                     continue;
                 }
             }

@@ -14,7 +14,7 @@ public class RestModule extends Module {
     private final Map<String, Message> messages = new HashMap<>();
 
     public RestModule() {
-        super("REST", "1.0");
+        super("REST", "1.01");
     }
 
     @Override
@@ -24,7 +24,11 @@ public class RestModule extends Module {
                 new ListClientsMessage(this),
                 new ListModulesMessage(this),
                 new ListCommandsMessage(this),
-                new ListNetworksMessage(this)
+                new ListNetworksMessage(this),
+                new ListUsersMessage(this),
+                new ListRolesMessage(this),
+                new ShowRoleMessage(this),
+                new StatisticsMessage(this)
         );
 
         this.getEventManager().register(this, ChannelMessageReceiveEvent.class, event -> {
