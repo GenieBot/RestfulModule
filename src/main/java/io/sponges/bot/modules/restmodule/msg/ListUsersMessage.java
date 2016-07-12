@@ -38,9 +38,14 @@ public class ListUsersMessage extends Message {
         if (network == null) {
             return json.put("error", "Invalid network id").toString();
         }
-        String response = client.sendMessageSync("list_users " + clientId + " " + network.getId());
+        System.out.println("Got network " + network.getId());
+        System.out.println("Sending msg...");
+        String response = client.sendMessageSync("list_users " + network.getId());
+        System.out.println("Sent msg... " + response);
         JSONArray array = new JSONArray(response); // NPE here
+        System.out.println("dam");
         json.put("users", array);
+        System.out.println("ok " + json.toString());
         return json.toString();
     }
 

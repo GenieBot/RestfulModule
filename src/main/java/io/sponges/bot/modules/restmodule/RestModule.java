@@ -28,7 +28,9 @@ public class RestModule extends Module {
                 new ListUsersMessage(this),
                 new ListRolesMessage(this),
                 new ShowRoleMessage(this),
-                new StatisticsMessage(this)
+                new StatisticsMessage(this),
+                new NetworkModulesMessage(this),
+                new ModifyModuleMessage(this)
         );
 
         this.getEventManager().register(this, ChannelMessageReceiveEvent.class, event -> {
