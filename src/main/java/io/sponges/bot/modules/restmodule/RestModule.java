@@ -26,8 +26,6 @@ public class RestModule extends Module {
                 new ListCommandsMessage(this),
                 new ListNetworksMessage(this),
                 new ListUsersMessage(this),
-                new ListRolesMessage(this),
-                new ShowRoleMessage(this),
                 new StatisticsMessage(this),
                 new NetworkModulesMessage(this),
                 new ModifyModuleMessage(this)
