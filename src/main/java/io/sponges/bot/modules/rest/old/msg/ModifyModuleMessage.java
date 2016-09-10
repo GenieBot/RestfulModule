@@ -1,4 +1,4 @@
-package io.sponges.bot.modules.restmodule.msg;
+package io.sponges.bot.modules.rest.old.msg;
 
 import io.sponges.bot.api.entities.Client;
 import io.sponges.bot.api.entities.Network;
@@ -11,7 +11,7 @@ import io.sponges.bot.api.module.ModuleManager;
 import io.sponges.bot.api.storage.DataObject;
 import io.sponges.bot.api.storage.ModuleDataObject;
 import io.sponges.bot.api.storage.Storage;
-import io.sponges.bot.modules.restmodule.Message;
+import io.sponges.bot.modules.rest.old.Message;
 import org.json.JSONObject;
 
 public class ModifyModuleMessage extends Message {

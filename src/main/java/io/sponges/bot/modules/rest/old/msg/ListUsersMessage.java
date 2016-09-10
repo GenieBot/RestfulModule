@@ -1,4 +1,4 @@
-package io.sponges.bot.modules.restmodule.msg;
+package io.sponges.bot.modules.rest.old.msg;
 
 import io.sponges.bot.api.entities.Client;
 import io.sponges.bot.api.entities.Network;
@@ -6,7 +6,7 @@ import io.sponges.bot.api.entities.manager.ClientManager;
 import io.sponges.bot.api.entities.manager.NetworkManager;
 import io.sponges.bot.api.event.events.channelmsg.ChannelMessageReceiveEvent;
 import io.sponges.bot.api.module.Module;
-import io.sponges.bot.modules.restmodule.Message;
+import io.sponges.bot.modules.rest.old.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 

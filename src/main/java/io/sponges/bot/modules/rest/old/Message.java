@@ -1,4 +1,4 @@
-package io.sponges.bot.modules.restmodule;
+package io.sponges.bot.modules.rest.old;
 
 import io.sponges.bot.api.event.events.channelmsg.ChannelMessageReceiveEvent;
 

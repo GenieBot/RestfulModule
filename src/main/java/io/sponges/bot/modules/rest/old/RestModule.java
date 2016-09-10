@@ -1,17 +1,10 @@
-package io.sponges.bot.modules.restmodule;
+package io.sponges.bot.modules.rest.old;
 
-import io.sponges.bot.api.event.events.channelmsg.ChannelMessageReceiveEvent;
-import io.sponges.bot.api.module.Module;
-import io.sponges.bot.modules.restmodule.msg.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class RestModule extends Module {
+public class RestModule {
 
     public static final String DASHBOARD_MANAGE_PERMISSION = "dashboard.manage";
 
-    private final Map<String, Message> messages = new HashMap<>();
+    /*private final Map<String, Message> messages = new HashMap<>();
 
     public RestModule() {
         super("REST", "1.01");
@@ -54,5 +47,5 @@ public class RestModule extends Module {
         for (Message message : messages) {
             this.messages.put(message.getName(), message);
         }
-    }
+    }*/
 }
