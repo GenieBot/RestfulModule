@@ -5,14 +5,13 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
-public class IndexRoute extends Route {
+public class GetIndexRoute extends Route {
 
-    public IndexRoute() {
+    public GetIndexRoute() {
         super(Method.GET, "/");
     }
 
     @Override
     protected void execute(Request request, Response response, JSONObject json) {
-        json.put("man", "dont");
     }
 }

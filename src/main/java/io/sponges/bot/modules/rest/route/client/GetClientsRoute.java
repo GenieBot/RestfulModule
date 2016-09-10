@@ -1,4 +1,4 @@
-package io.sponges.bot.modules.rest.route;
+package io.sponges.bot.modules.rest.route.client;
 
 import io.sponges.bot.api.entities.Client;
 import io.sponges.bot.api.entities.manager.ClientManager;
@@ -10,11 +10,11 @@ import spark.Response;
 
 import java.util.Collection;
 
-public class ClientsRoute extends Route {
+public class GetClientsRoute extends Route {
 
     private ClientManager clientManager = module.getClientManager();
 
-    public ClientsRoute() {
+    public GetClientsRoute() {
         super(Method.GET, "/clients");
     }
 

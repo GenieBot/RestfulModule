@@ -7,6 +7,8 @@ import spark.Response;
 
 public abstract class Route {
 
+    private static final String TEMP_API_KEY = "dummy";
+
     private static final String CONTENT_TYPE_HEADER = "application/json";
 
     protected static Module module = null;
@@ -23,21 +25,53 @@ public abstract class Route {
 
     protected abstract void execute(Request request, Response response, JSONObject json);
 
+    private boolean isAuthenticated(Request request) {
+        if (method != Method.GET && method != Method.DELETE && method != Method.HEAD && method != Method.OPTIONS) {
+            JSONObject requestBody;
+            try {
+                requestBody = new JSONObject(request.body());
+            } catch (Exception ignored) {
+                error = "API key required";
+                return false;
+            }
+            if (requestBody.isNull("key")) {
+                error = "API key required";
+                return false;
+            }
+            String key = requestBody.getString("key");
+            if (!key.equals(TEMP_API_KEY)) {
+                error = "Invalid API key";
+                return false;
+            }
+        } else {
+            if (!request.queryParams().contains("key")) {
+                error = "API key required";
+                return false;
+            }
+            String key = request.queryParams("key");
+            if (!key.equals(TEMP_API_KEY)) {
+                error = "Invalid API key";
+                return false;
+            }
+        }
+        return true;
+    }
+
     Object internalExecute(Request request, Response response) {
         response.header("Content-Type", CONTENT_TYPE_HEADER);
         JSONObject json = new JSONObject();
-        execute(request, response, json);
+        if (isAuthenticated(request)) {
+            execute(request, response, json);
+        }
         JSONObject body = new JSONObject();
         body.put("content", json);
-        body.put("version", RestModule.API_VERSION);
+        body.put("api_version", RestModule.API_VERSION);
         boolean hasError = error != null;
+        body.put("error", hasError);
         if (hasError) {
-            JSONObject errorObject = new JSONObject();
-            errorObject.put("message", error);
-            body.put("error", errorObject);
-        } else {
-            body.put("error", false);
+            body.put("error_message", error);
         }
+        error = null;
         String bodyString;
         if (method == Method.GET && request.queryParams().contains("pretty")
                 && Boolean.parseBoolean(request.queryParams("pretty"))) {
@@ -49,7 +83,7 @@ public abstract class Route {
     }
 
     public enum Method {
-        GET, POST, PUT, PATCH, DELETE, OPTIONS
+        GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS
     }
 
     Method getMethod() {
