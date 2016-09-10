@@ -18,12 +18,13 @@ public class GetNetworksRoute extends GenericClientRoute {
     }
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, Client client) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, Client client) {
         NetworkManager networkManager = client.getNetworkManager();
         Collection<Network> networks = networkManager.getNetworks().values();
         JSONArray array = new JSONArray();
         networks.forEach(network -> array.put(network.getId()));
         json.put("networks", array);
         json.put("size", networks.size());
+        return json;
     }
 }

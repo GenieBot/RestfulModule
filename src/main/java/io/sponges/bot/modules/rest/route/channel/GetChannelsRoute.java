@@ -18,12 +18,13 @@ public class GetChannelsRoute extends GenericNetworkRoute {
     }
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, Network network) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, Network network) {
         ChannelManager channelManager = network.getChannelManager();
         Collection<Channel> channels = channelManager.getChannels().values();
         JSONArray array = new JSONArray();
         channels.forEach(channel -> array.put(channel.getId()));
         json.put("channels", array);
         json.put("size", channels.size());
+        return json;
     }
 }

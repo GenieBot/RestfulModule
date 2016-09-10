@@ -19,11 +19,12 @@ public class GetClientsRoute extends Route {
     }
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json) {
+    protected JSONObject execute(Request request, Response response, JSONObject json) {
         Collection<Client> clients = clientManager.getClients().values();
         JSONArray array = new JSONArray();
         clients.forEach(client -> array.put(client.getId()));
         json.put("clients", array);
         json.put("size", clients.size());
+        return json;
     }
 }

@@ -15,16 +15,17 @@ public abstract class GenericClientRoute extends Route {
         super(method, "/clients/:client" + route);
     }
 
-    protected abstract void execute(Request request, Response response, JSONObject json, Client client);
+    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Client client);
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json) {
+    protected JSONObject execute(Request request, Response response, JSONObject json) {
         String clientId = request.params("client");
         if (clientId == null || !clientManager.isClient(clientId)) {
             setError("Invalid client");
-            return;
+            return json;
         }
         Client client = clientManager.getClient(clientId);
         execute(request, response, json, client);
+        return json;
     }
 }

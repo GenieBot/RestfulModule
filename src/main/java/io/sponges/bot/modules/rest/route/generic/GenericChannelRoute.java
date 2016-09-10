@@ -13,15 +13,15 @@ public abstract class GenericChannelRoute extends GenericNetworkRoute {
         super(method, "/channels/:channel" + route);
     }
 
-    protected abstract void execute(Request request, Response response, JSONObject json, Channel channel);
+    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Channel channel);
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, Network network) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, Network network) {
         ChannelManager channelManager = network.getChannelManager();
         String channelId = request.params("channel");
         if (channelId == null) {
             setError("Invalid channel");
-            return;
+            return json;
         }
         if (!channelManager.isChannel(channelId)) {
             Channel channel = channelManager.loadChannelSync(channelId);
@@ -34,5 +34,6 @@ public abstract class GenericChannelRoute extends GenericNetworkRoute {
             Channel channel = channelManager.getChannel(channelId);
             execute(request, response, json, channel);
         }
+        return json;
     }
 }

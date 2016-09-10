@@ -23,7 +23,7 @@ public abstract class Route {
         this.route = route;
     }
 
-    protected abstract void execute(Request request, Response response, JSONObject json);
+    protected abstract JSONObject execute(Request request, Response response, JSONObject json);
 
     private boolean isAuthenticated(Request request) {
         if (method != Method.GET && method != Method.DELETE && method != Method.HEAD && method != Method.OPTIONS) {
@@ -61,7 +61,7 @@ public abstract class Route {
         response.header("Content-Type", CONTENT_TYPE_HEADER);
         JSONObject json = new JSONObject();
         if (isAuthenticated(request)) {
-            execute(request, response, json);
+            json = execute(request, response, json);
         }
         JSONObject body = new JSONObject();
         body.put("content", json);

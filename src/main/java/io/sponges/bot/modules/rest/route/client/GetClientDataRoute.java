@@ -6,15 +6,14 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
-public class GetClientRoute extends GenericClientRoute {
+public class GetClientDataRoute extends GenericClientRoute {
 
-    public GetClientRoute() {
-        super(Method.GET, "");
+    public GetClientDataRoute() {
+        super(Method.GET, "/data");
     }
 
     @Override
     protected JSONObject execute(Request request, Response response, JSONObject json, Client client) {
-        json.put("default_prefix", client.getDefaultPrefix());
-        return json;
+        return new JSONObject(module.getStorage().serialize(client.getData()));
     }
 }

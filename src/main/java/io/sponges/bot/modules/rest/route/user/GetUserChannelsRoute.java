@@ -17,11 +17,12 @@ public class GetUserChannelsRoute extends GenericUserRoute {
     }
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, User user) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, User user) {
         Collection<Channel> channels = user.getChannels();
         JSONArray array = new JSONArray();
         channels.forEach(channel -> array.put(channel.getId()));
         json.put("channels", array);
         json.put("size", channels.size());
+        return json;
     }
 }

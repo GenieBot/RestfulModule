@@ -15,9 +15,10 @@ public class GetChannelRoute extends GenericChannelRoute {
     }
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, Channel channel) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, Channel channel) {
         json.put("id", channel.getId());
         json.put("group", channel instanceof GroupChannel);
         json.put("private", channel instanceof PrivateChannel);
+        return json;
     }
 }

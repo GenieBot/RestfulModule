@@ -6,14 +6,14 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
-public class GetNetworkRoute extends GenericNetworkRoute {
+public class GetNetworkDataRoute extends GenericNetworkRoute {
 
-    public GetNetworkRoute() {
-        super(Method.GET, "");
+    public GetNetworkDataRoute() {
+        super(Method.GET, "/data");
     }
 
     @Override
     protected JSONObject execute(Request request, Response response, JSONObject json, Network network) {
-        return json;
+        return new JSONObject(module.getStorage().serialize(network.getData()));
     }
 }

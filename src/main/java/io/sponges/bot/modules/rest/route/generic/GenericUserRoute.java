@@ -13,15 +13,15 @@ public abstract class GenericUserRoute extends GenericNetworkRoute {
         super(method, "/users/:user" + route);
     }
 
-    protected abstract void execute(Request request, Response response, JSONObject json, User user);
+    protected abstract JSONObject execute(Request request, Response response, JSONObject json, User user);
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, Network network) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, Network network) {
         UserManager userManager = network.getUserManager();
         String userId = request.params("user");
         if (userId == null) {
             setError("Invalid user");
-            return;
+            return json;
         }
         if (!userManager.isUser(userId)) {
             User user = userManager.loadUserSync(userId);
@@ -34,5 +34,6 @@ public abstract class GenericUserRoute extends GenericNetworkRoute {
             User user = userManager.getUser(userId);
             execute(request, response, json, user);
         }
+        return json;
     }
 }

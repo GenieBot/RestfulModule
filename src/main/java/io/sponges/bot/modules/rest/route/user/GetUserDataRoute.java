@@ -6,16 +6,14 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 
-public class GetUserRoute extends GenericUserRoute {
+public class GetUserDataRoute extends GenericUserRoute {
 
-    public GetUserRoute() {
-        super(Method.GET, "");
+    public GetUserDataRoute() {
+        super(Method.GET, "/data");
     }
 
     @Override
     protected JSONObject execute(Request request, Response response, JSONObject json, User user) {
-        json.put("op", user.isOp());
-        json.put("admin", user.isPlatformAdmin());
-        return json;
+        return new JSONObject(module.getStorage().serialize(user.getData()));
     }
 }

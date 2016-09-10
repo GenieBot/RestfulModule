@@ -12,6 +12,7 @@ public class GetIndexRoute extends Route {
     }
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json) {
+    protected JSONObject execute(Request request, Response response, JSONObject json) {
+        return json;
     }
 }

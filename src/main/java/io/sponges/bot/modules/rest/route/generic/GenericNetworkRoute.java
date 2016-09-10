@@ -13,15 +13,15 @@ public abstract class GenericNetworkRoute extends GenericClientRoute {
         super(method, "/networks/:network" + route);
     }
 
-    protected abstract void execute(Request request, Response response, JSONObject json, Network network);
+    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Network network);
 
     @Override
-    protected void execute(Request request, Response response, JSONObject json, Client client) {
+    protected JSONObject execute(Request request, Response response, JSONObject json, Client client) {
         NetworkManager networkManager = client.getNetworkManager();
         String networkId = request.params("network");
         if (networkId == null) {
             setError("Invalid network");
-            return;
+            return json;
         }
         if (!networkManager.isNetwork(networkId)) {
             Network network = networkManager.loadNetworkSync(networkId);
@@ -34,5 +34,6 @@ public abstract class GenericNetworkRoute extends GenericClientRoute {
             Network network = networkManager.getNetwork(networkId);
             execute(request, response, json, network);
         }
+        return json;
     }
 }
