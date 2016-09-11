@@ -2,9 +2,9 @@ package io.sponges.bot.modules.rest.route.generic;
 
 import io.sponges.bot.api.entities.Client;
 import io.sponges.bot.api.entities.manager.ClientManager;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import io.sponges.bot.modules.rest.Route;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 public abstract class GenericClientRoute extends Route {
@@ -15,11 +15,11 @@ public abstract class GenericClientRoute extends Route {
         super(method, "/clients/:client" + route);
     }
 
-    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Client client);
+    protected abstract JSONObject execute(RequestWrapper request, Response response, JSONObject json, Client client);
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json) {
-        String clientId = request.params("client");
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json) {
+        String clientId = request.getRequest().params("client");
         if (clientId == null || !clientManager.isClient(clientId)) {
             setError("Invalid client");
             return json;

@@ -2,10 +2,10 @@ package io.sponges.bot.modules.rest.route.user;
 
 import io.sponges.bot.api.entities.User;
 import io.sponges.bot.api.entities.channel.Channel;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import io.sponges.bot.modules.rest.route.generic.GenericUserRoute;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 import java.util.Collection;
@@ -17,7 +17,7 @@ public class GetUserChannelsRoute extends GenericUserRoute {
     }
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json, User user) {
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, User user) {
         Collection<Channel> channels = user.getChannels();
         JSONArray array = new JSONArray();
         channels.forEach(channel -> array.put(channel.getId()));

@@ -3,8 +3,8 @@ package io.sponges.bot.modules.rest.route.generic;
 import io.sponges.bot.api.entities.Network;
 import io.sponges.bot.api.entities.channel.Channel;
 import io.sponges.bot.api.entities.manager.ChannelManager;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 public abstract class GenericChannelRoute extends GenericNetworkRoute {
@@ -13,12 +13,12 @@ public abstract class GenericChannelRoute extends GenericNetworkRoute {
         super(method, "/channels/:channel" + route);
     }
 
-    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Channel channel);
+    protected abstract JSONObject execute(RequestWrapper request, Response response, JSONObject json, Channel channel);
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json, Network network) {
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, Network network) {
         ChannelManager channelManager = network.getChannelManager();
-        String channelId = request.params("channel");
+        String channelId = request.getRequest().params("channel");
         if (channelId == null) {
             setError("Invalid channel");
             return json;

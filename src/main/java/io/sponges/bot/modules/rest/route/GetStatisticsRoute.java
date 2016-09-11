@@ -9,9 +9,9 @@ import io.sponges.bot.api.entities.manager.NetworkManager;
 import io.sponges.bot.api.entities.manager.UserManager;
 import io.sponges.bot.api.module.ModuleManager;
 import io.sponges.bot.api.webhook.WebhookManager;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import io.sponges.bot.modules.rest.Route;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 import java.util.Collection;
@@ -30,7 +30,7 @@ public class GetStatisticsRoute extends Route {
     }
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json) {
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json) {
         long uptime = System.currentTimeMillis() - START_TIME;
         int modules = moduleManager.getModules().size();
         int commands = commandManager.getCommands().size();

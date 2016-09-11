@@ -14,9 +14,7 @@ import io.sponges.bot.modules.rest.route.command.GetCommandsRoute;
 import io.sponges.bot.modules.rest.route.module.GetModuleCommandsRoute;
 import io.sponges.bot.modules.rest.route.module.GetModuleRoute;
 import io.sponges.bot.modules.rest.route.module.GetModulesRoute;
-import io.sponges.bot.modules.rest.route.network.GetNetworkDataRoute;
-import io.sponges.bot.modules.rest.route.network.GetNetworkRoute;
-import io.sponges.bot.modules.rest.route.network.GetNetworksRoute;
+import io.sponges.bot.modules.rest.route.network.*;
 import io.sponges.bot.modules.rest.route.user.GetUserChannelsRoute;
 import io.sponges.bot.modules.rest.route.user.GetUserDataRoute;
 import io.sponges.bot.modules.rest.route.user.GetUserRoute;
@@ -58,6 +56,8 @@ class Routes {
                 new GetNetworksRoute(),
                 new GetNetworkRoute(),
                 new GetNetworkDataRoute(),
+                new GetNetworkModuleRoute(),
+                new ToggleNetworkModuleRoute(),
 
                 // channel
                 new GetChannelsRoute(),

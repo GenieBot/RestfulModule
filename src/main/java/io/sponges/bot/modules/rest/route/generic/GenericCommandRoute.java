@@ -2,9 +2,9 @@ package io.sponges.bot.modules.rest.route.generic;
 
 import io.sponges.bot.api.cmd.Command;
 import io.sponges.bot.api.cmd.CommandManager;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import io.sponges.bot.modules.rest.Route;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 public abstract class GenericCommandRoute extends Route {
@@ -15,11 +15,11 @@ public abstract class GenericCommandRoute extends Route {
         super(method, "/commands/:command" + route);
     }
 
-    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Command command);
+    protected abstract JSONObject execute(RequestWrapper request, Response response, JSONObject json, Command command);
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json) {
-        String commandId = request.params("command");
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json) {
+        String commandId = request.getRequest().params("command");
         if (commandId == null) {
             setError("Invalid command");
             return json;

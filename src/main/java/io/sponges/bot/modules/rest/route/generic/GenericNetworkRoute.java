@@ -3,8 +3,8 @@ package io.sponges.bot.modules.rest.route.generic;
 import io.sponges.bot.api.entities.Client;
 import io.sponges.bot.api.entities.Network;
 import io.sponges.bot.api.entities.manager.NetworkManager;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 public abstract class GenericNetworkRoute extends GenericClientRoute {
@@ -13,12 +13,12 @@ public abstract class GenericNetworkRoute extends GenericClientRoute {
         super(method, "/networks/:network" + route);
     }
 
-    protected abstract JSONObject execute(Request request, Response response, JSONObject json, Network network);
+    protected abstract JSONObject execute(RequestWrapper request, Response response, JSONObject json, Network network);
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json, Client client) {
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, Client client) {
         NetworkManager networkManager = client.getNetworkManager();
-        String networkId = request.params("network");
+        String networkId = request.getRequest().params("network");
         if (networkId == null) {
             setError("Invalid network");
             return json;

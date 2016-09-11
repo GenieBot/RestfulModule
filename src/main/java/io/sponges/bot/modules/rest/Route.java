@@ -8,7 +8,6 @@ import spark.Response;
 public abstract class Route {
 
     private static final String TEMP_API_KEY = "dummy";
-
     private static final String CONTENT_TYPE_HEADER = "application/json";
 
     protected static Module module = null;
@@ -23,32 +22,26 @@ public abstract class Route {
         this.route = route;
     }
 
-    protected abstract JSONObject execute(Request request, Response response, JSONObject json);
+    protected abstract JSONObject execute(RequestWrapper request, Response response, JSONObject json);
 
-    private boolean isAuthenticated(Request request) {
+    private boolean isAuthenticated(RequestWrapper request) {
         if (method != Method.GET && method != Method.DELETE && method != Method.HEAD && method != Method.OPTIONS) {
-            JSONObject requestBody;
-            try {
-                requestBody = new JSONObject(request.body());
-            } catch (Exception ignored) {
+            JSONObject body = request.getBody();
+            if (body.isNull("key")) {
                 error = "API key required";
                 return false;
             }
-            if (requestBody.isNull("key")) {
-                error = "API key required";
-                return false;
-            }
-            String key = requestBody.getString("key");
+            String key = body.getString("key");
             if (!key.equals(TEMP_API_KEY)) {
                 error = "Invalid API key";
                 return false;
             }
         } else {
-            if (!request.queryParams().contains("key")) {
+            if (!request.getRequest().queryParams().contains("key")) {
                 error = "API key required";
                 return false;
             }
-            String key = request.queryParams("key");
+            String key = request.getRequest().queryParams("key");
             if (!key.equals(TEMP_API_KEY)) {
                 error = "Invalid API key";
                 return false;
@@ -57,11 +50,15 @@ public abstract class Route {
         return true;
     }
 
-    Object internalExecute(Request request, Response response) {
+    // spaghetti
+    Object internalExecute(Request sparkRequest, Response response) {
+        RequestWrapper request = new RequestWrapper(sparkRequest);
         response.header("Content-Type", CONTENT_TYPE_HEADER);
-        JSONObject json = new JSONObject();
+        JSONObject json;
         if (isAuthenticated(request)) {
-            json = execute(request, response, json);
+            json = execute(request, response, new JSONObject());
+        } else {
+            json = new JSONObject();
         }
         JSONObject body = new JSONObject();
         body.put("content", json);
@@ -72,14 +69,22 @@ public abstract class Route {
             body.put("error_message", error);
         }
         error = null;
-        String bodyString;
-        if (method == Method.GET && request.queryParams().contains("pretty")
-                && Boolean.parseBoolean(request.queryParams("pretty"))) {
-            bodyString = body.toString(4);
+        String bodyString = body.toString();
+        if (method != Method.GET && method != Method.DELETE && method != Method.HEAD && method != Method.OPTIONS) {
+            if (!request.getBody().isNull("pretty") && request.getBody().getBoolean("pretty")) {
+                bodyString = body.toString(4);
+            }
         } else {
-            bodyString = body.toString();
+            if (sparkRequest.queryParams().contains("pretty")
+                    && Boolean.parseBoolean(sparkRequest.queryParams("pretty"))) {
+                bodyString = body.toString(4);
+            }
         }
         return bodyString;
+    }
+
+    protected JSONObject getJson(Request request) {
+        return new JSONObject(request.body());
     }
 
     public enum Method {

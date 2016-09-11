@@ -3,8 +3,8 @@ package io.sponges.bot.modules.rest.route.generic;
 import io.sponges.bot.api.entities.Network;
 import io.sponges.bot.api.entities.User;
 import io.sponges.bot.api.entities.manager.UserManager;
+import io.sponges.bot.modules.rest.RequestWrapper;
 import org.json.JSONObject;
-import spark.Request;
 import spark.Response;
 
 public abstract class GenericUserRoute extends GenericNetworkRoute {
@@ -13,12 +13,12 @@ public abstract class GenericUserRoute extends GenericNetworkRoute {
         super(method, "/users/:user" + route);
     }
 
-    protected abstract JSONObject execute(Request request, Response response, JSONObject json, User user);
+    protected abstract JSONObject execute(RequestWrapper request, Response response, JSONObject json, User user);
 
     @Override
-    protected JSONObject execute(Request request, Response response, JSONObject json, Network network) {
+    protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, Network network) {
         UserManager userManager = network.getUserManager();
-        String userId = request.params("user");
+        String userId = request.getRequest().params("user");
         if (userId == null) {
             setError("Invalid user");
             return json;
