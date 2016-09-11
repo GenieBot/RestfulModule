@@ -21,6 +21,8 @@ import io.sponges.bot.modules.rest.route.user.GetUserRoute;
 import io.sponges.bot.modules.rest.route.user.GetUsersRoute;
 import spark.Service;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 class Routes {
@@ -28,12 +30,19 @@ class Routes {
     private final Service service;
 
     Routes(Module module) {
+        Authentication authentication = null;
+        try {
+            authentication = new Authentication(module.getLogger(), new File("authentication.txt"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         this.service = Service.ignite();
         this.service.port(4568);
         this.service.exception(Exception.class, (exception, request, response) -> {
             exception.printStackTrace();
         });
         Route.setModule(module);
+        Route.setAuthentication(authentication);
         register(
                 new GetIndexRoute(),
                 new GetStatisticsRoute(),
@@ -86,5 +95,4 @@ class Routes {
             }
         }
     }
-
 }

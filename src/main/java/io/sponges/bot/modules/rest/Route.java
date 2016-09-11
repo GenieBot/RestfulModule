@@ -7,10 +7,10 @@ import spark.Response;
 
 public abstract class Route {
 
-    private static final String TEMP_API_KEY = "dummy";
     private static final String CONTENT_TYPE_HEADER = "application/json";
 
     protected static Module module = null;
+    private static Authentication authentication = null;
 
     private final Method method;
     private final String route;
@@ -32,7 +32,7 @@ public abstract class Route {
                 return false;
             }
             String key = body.getString("key");
-            if (!key.equals(TEMP_API_KEY)) {
+            if (!authentication.isValid(key)) {
                 error = "Invalid API key";
                 return false;
             }
@@ -42,7 +42,7 @@ public abstract class Route {
                 return false;
             }
             String key = request.getRequest().queryParams("key");
-            if (!key.equals(TEMP_API_KEY)) {
+            if (!authentication.isValid(key)) {
                 error = "Invalid API key";
                 return false;
             }
@@ -105,6 +105,10 @@ public abstract class Route {
 
     static void setModule(Module module) {
         Route.module = module;
+    }
+
+    static void setAuthentication(Authentication authentication) {
+        Route.authentication = authentication;
     }
 
 }
