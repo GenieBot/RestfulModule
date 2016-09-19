@@ -7,6 +7,8 @@ import io.sponges.bot.modules.rest.RequestWrapper;
 import org.json.JSONObject;
 import spark.Response;
 
+import java.util.UUID;
+
 public abstract class GenericNetworkRoute extends GenericClientRoute {
 
     public GenericNetworkRoute(Method method, String route) {
@@ -18,15 +20,11 @@ public abstract class GenericNetworkRoute extends GenericClientRoute {
     @Override
     protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, Client client) {
         NetworkManager networkManager = client.getNetworkManager();
-        String networkId = request.getRequest().params("network");
-        if (networkId == null) {
-            setError("Invalid network");
-            return json;
-        }
+        UUID networkId = UUID.fromString(request.getRequest().params("network"));
         if (!networkManager.isNetwork(networkId)) {
             Network network = networkManager.loadNetworkSync(networkId);
             if (network == null) {
-                setError("Network not found in client");
+                setError("Network not found in database");
             } else {
                 execute(request, response, json, network);
             }

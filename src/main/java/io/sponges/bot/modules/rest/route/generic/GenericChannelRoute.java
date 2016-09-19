@@ -7,6 +7,8 @@ import io.sponges.bot.modules.rest.RequestWrapper;
 import org.json.JSONObject;
 import spark.Response;
 
+import java.util.UUID;
+
 public abstract class GenericChannelRoute extends GenericNetworkRoute {
 
     public GenericChannelRoute(Method method, String route) {
@@ -18,15 +20,11 @@ public abstract class GenericChannelRoute extends GenericNetworkRoute {
     @Override
     protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, Network network) {
         ChannelManager channelManager = network.getChannelManager();
-        String channelId = request.getRequest().params("channel");
-        if (channelId == null) {
-            setError("Invalid channel");
-            return json;
-        }
+        UUID channelId = UUID.fromString(request.getRequest().params("channel"));
         if (!channelManager.isChannel(channelId)) {
             Channel channel = channelManager.loadChannelSync(channelId);
             if (channel == null) {
-                setError("Channel not found in client");
+                setError("Channel not found in database");
             } else {
                 execute(request, response, json, channel);
             }

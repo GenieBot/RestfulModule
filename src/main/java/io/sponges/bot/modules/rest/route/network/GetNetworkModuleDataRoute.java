@@ -1,20 +1,20 @@
 package io.sponges.bot.modules.rest.route.network;
 
 import io.sponges.bot.api.entities.Network;
-import io.sponges.bot.api.entities.manager.NetworkModuleManager;
 import io.sponges.bot.api.module.Module;
+import io.sponges.bot.api.module.ModuleData;
 import io.sponges.bot.api.module.ModuleManager;
 import io.sponges.bot.modules.rest.RequestWrapper;
 import io.sponges.bot.modules.rest.route.generic.GenericNetworkRoute;
 import org.json.JSONObject;
 import spark.Response;
 
-public class GetNetworkModuleRoute extends GenericNetworkRoute {
+public class GetNetworkModuleDataRoute extends GenericNetworkRoute {
 
     private final ModuleManager moduleManager = module.getModuleManager();
 
-    public GetNetworkModuleRoute() {
-        super(Method.GET, "/modules/:module");
+    public GetNetworkModuleDataRoute() {
+        super(Method.GET, "/modules/:module/data");
     }
 
     @Override
@@ -25,8 +25,9 @@ public class GetNetworkModuleRoute extends GenericNetworkRoute {
             return json;
         }
         Module module = moduleManager.getModule(moduleId);
-        NetworkModuleManager moduleManager = network.getModuleManager();
-        json.put("enabled", moduleManager.isEnabled(module));
+        ModuleData moduleData = module.getData();
+        JSONObject data = moduleData.get(network);
+        json.put("data", data);
         return json;
     }
 }

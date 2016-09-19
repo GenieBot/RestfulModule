@@ -7,6 +7,8 @@ import io.sponges.bot.modules.rest.Route;
 import org.json.JSONObject;
 import spark.Response;
 
+import java.util.UUID;
+
 public abstract class GenericClientRoute extends Route {
 
     private final ClientManager clientManager = module.getClientManager();
@@ -19,8 +21,8 @@ public abstract class GenericClientRoute extends Route {
 
     @Override
     protected JSONObject execute(RequestWrapper request, Response response, JSONObject json) {
-        String clientId = request.getRequest().params("client");
-        if (clientId == null || !clientManager.isClient(clientId)) {
+        UUID clientId = UUID.fromString(request.getRequest().params("client"));
+        if (!clientManager.isClient(clientId)) {
             setError("Invalid client");
             return json;
         }

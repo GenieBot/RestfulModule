@@ -8,7 +8,7 @@ public class RestModule extends Module {
     static final String API_ROOT = "/api/v1";
 
     public RestModule() {
-        super("Rest", "1.0");
+        super("Rest", "1.0", true);
     }
 
     @Override

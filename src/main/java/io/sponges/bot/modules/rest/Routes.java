@@ -3,10 +3,8 @@ package io.sponges.bot.modules.rest;
 import io.sponges.bot.api.module.Module;
 import io.sponges.bot.modules.rest.route.GetIndexRoute;
 import io.sponges.bot.modules.rest.route.GetStatisticsRoute;
-import io.sponges.bot.modules.rest.route.channel.GetChannelDataRoute;
 import io.sponges.bot.modules.rest.route.channel.GetChannelRoute;
 import io.sponges.bot.modules.rest.route.channel.GetChannelsRoute;
-import io.sponges.bot.modules.rest.route.client.GetClientDataRoute;
 import io.sponges.bot.modules.rest.route.client.GetClientRoute;
 import io.sponges.bot.modules.rest.route.client.GetClientsRoute;
 import io.sponges.bot.modules.rest.route.command.GetCommandRoute;
@@ -15,8 +13,6 @@ import io.sponges.bot.modules.rest.route.module.GetModuleCommandsRoute;
 import io.sponges.bot.modules.rest.route.module.GetModuleRoute;
 import io.sponges.bot.modules.rest.route.module.GetModulesRoute;
 import io.sponges.bot.modules.rest.route.network.*;
-import io.sponges.bot.modules.rest.route.user.GetUserChannelsRoute;
-import io.sponges.bot.modules.rest.route.user.GetUserDataRoute;
 import io.sponges.bot.modules.rest.route.user.GetUserRoute;
 import io.sponges.bot.modules.rest.route.user.GetUsersRoute;
 import spark.Service;
@@ -59,25 +55,21 @@ class Routes {
                 // clients
                 new GetClientsRoute(),
                 new GetClientRoute(),
-                new GetClientDataRoute(),
 
                 // networks
                 new GetNetworksRoute(),
                 new GetNetworkRoute(),
-                new GetNetworkDataRoute(),
                 new GetNetworkModuleRoute(),
                 new ToggleNetworkModuleRoute(),
+                new GetNetworkModuleDataRoute(),
 
                 // channel
                 new GetChannelsRoute(),
                 new GetChannelRoute(),
-                new GetChannelDataRoute(),
 
                 // user
                 new GetUsersRoute(),
-                new GetUserRoute(),
-                new GetUserDataRoute(),
-                new GetUserChannelsRoute()
+                new GetUserRoute()
         );
         this.service.redirect.get("/api", RestModule.API_ROOT);
         this.service.redirect.get(RestModule.API_ROOT, RestModule.API_ROOT + "/");

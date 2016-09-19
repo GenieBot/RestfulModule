@@ -19,8 +19,8 @@ public abstract class GenericModuleRoute extends Route {
 
     @Override
     protected JSONObject execute(RequestWrapper request, Response response, JSONObject json) {
-        String moduleId = request.getRequest().params("module");
-        if (moduleId == null || !moduleManager.isModule(moduleId)) {
+        int moduleId = Integer.parseInt(request.getRequest().params("module"));
+        if (!moduleManager.isModule(moduleId)) {
             setError("Invalid module");
             return json;
         }

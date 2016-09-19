@@ -14,6 +14,8 @@ public class GetModuleRoute extends GenericModuleRoute {
 
     @Override
     protected JSONObject execute(RequestWrapper request, Response response, JSONObject json, Module module) {
+        json.put("id", module.getId());
+        json.put("name", module.getName());
         json.put("version", module.getVersion());
         return json;
     }

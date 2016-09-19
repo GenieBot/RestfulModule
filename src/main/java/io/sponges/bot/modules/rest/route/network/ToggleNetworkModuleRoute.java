@@ -1,10 +1,9 @@
 package io.sponges.bot.modules.rest.route.network;
 
 import io.sponges.bot.api.entities.Network;
-import io.sponges.bot.api.entities.manager.ModuleDataManager;
+import io.sponges.bot.api.entities.manager.NetworkModuleManager;
 import io.sponges.bot.api.module.Module;
 import io.sponges.bot.api.module.ModuleManager;
-import io.sponges.bot.api.storage.ModuleDataObject;
 import io.sponges.bot.modules.rest.RequestWrapper;
 import io.sponges.bot.modules.rest.route.generic.GenericNetworkRoute;
 import org.json.JSONObject;
@@ -26,16 +25,15 @@ public class ToggleNetworkModuleRoute extends GenericNetworkRoute {
             return json;
         }
         boolean enabled = body.getBoolean("enabled");
-        String moduleId = request.getRequest().params("module");
-        if (moduleId == null || !moduleManager.isModule(moduleId)) {
+        int moduleId = Integer.parseInt(request.getRequest().params("module"));
+        if (!moduleManager.isModule(moduleId)) {
             setError("Invalid module");
             return json;
         }
         Module module = moduleManager.getModule(moduleId);
-        ModuleDataManager moduleDataManager = network.getModuleDataManager();
-        ModuleDataObject dataObject = moduleDataManager.getData(module.getId());
-        dataObject.setEnabled(enabled);
-        json.put("enabled", dataObject.isEnabled());
+        NetworkModuleManager moduleManager = network.getModuleManager();
+        moduleManager.setEnabled(module, enabled);
+        json.put("enabled", enabled);
         return json;
     }
 }
