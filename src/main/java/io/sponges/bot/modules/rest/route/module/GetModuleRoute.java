@@ -17,6 +17,7 @@ public class GetModuleRoute extends GenericModuleRoute {
         json.put("id", module.getId());
         json.put("name", module.getName());
         json.put("version", module.getVersion());
+        json.put("required", module.isRequired());
         return json;
     }
 }

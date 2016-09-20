@@ -60,8 +60,10 @@ class Routes {
                 new GetNetworksRoute(),
                 new GetNetworkRoute(),
                 new GetNetworkModuleRoute(),
-                new ToggleNetworkModuleRoute(),
                 new GetNetworkModuleDataRoute(),
+                new UpdateNetworkModuleDataRoute(),
+                new EnableNetworkModuleRoute(),
+                new DisableNetworkModuleRoute(),
 
                 // channel
                 new GetChannelsRoute(),
